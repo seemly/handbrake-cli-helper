@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>RipBox CLI Command Builder</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f8f9fa;
+      padding: 2rem;
+    }
+
+    .card {
+      background-color: #fff;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .display-none {
+      display: none;
+    }
+
+    .field-block {
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      display: block;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    select {
+      width: 100%;
+      box-sizing: border-box;
+      display: block;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+      outline: none;
+    }
+
+    select:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+      outline: none;
+    }
+
+    textarea {
+      height: 140px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border: 1px solid #2b6cb0;
+      border-radius: 4px;
+      cursor: pointer;
+      color: white;
+      transition: background-color 0.2s, border-color 0.2s;
+      background-color: #4299e1;
+    }
+
+    button:hover {
+      background-color: #2b6cb0;
+    }
+
+    .field-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      position: relative;
+    }
+
+    .copied-tooltip {
+      position: absolute;
+      background-color: #28a745;
+      color: white;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      top: -1.5rem;
+      right: 0;
+      white-space: nowrap;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Rip Command Builder</h1>
+
+    <div class="field-block">
+      <div class="field-row">
+        <label for="get">Get Disc Titles</label>
+        <button onclick="copyToClipboard('get', 'copied-get')">Copy</button>
+        <span id="copied-get" class="copied-tooltip" style="display: inline-block;">Copied!</span>
+      </div>
+      <input type="text" id="get" readonly value="HandBrakeCLI -i /dev/sr0 -t 0 --min-duration 300">
+    </div>
+
+    <div class="field-block display-none">
+      <label for="mediaType">Media Type</label>
+      <select id="mediaType">
+        <option value="movies">Movie</option>
+        <option value="tv">TV Show</option>
+      </select>
+    </div>
+
+    <div class="field-block">
+      <label for="name">DVD Name</label>
+      <input type="text" id="name">
+    </div>
+
+    <div class="field-block">
+      <label for="title">DVD Title Number</label>
+      <input type="number" id="title">
+    </div>
+
+    <div class="field-block">
+      <label for="subtitleTracks">Subtitle Tracks (comma separated)</label>
+      <input type="text" id="subtitleTracks" placeholder="e.g. 1,8">
+    </div>
+
+    <div class="field-block">
+      <div class="field-row">
+        <label for="makeFolder">Make Folder Command</label>
+        <button onclick="copyToClipboard('makeFolder', 'copied-makeFolder')">Copy</button>
+        <span id="copied-makeFolder" class="copied-tooltip" style="display: inline-block;">Copied!</span>
+      </div>
+      <textarea id="makeFolder" readonly></textarea>
+    </div>
+
+    <div class="field-block">
+      <div class="field-row">
+        <label for="ripCommand">Rip Command</label>
+        <button onclick="copyToClipboard('ripCommand', 'copied-ripCommand')">Copy</button>
+        <span id="copied-ripCommand" class="copied-tooltip" style="display: inline-block;">Copied!</span>
+      </div>
+      <textarea id="ripCommand" readonly></textarea>
+    </div>
+
+    <div class="field-block">
+      <div class="field-row">
+        <label for="integrityCheck">Basic Integrity Check</label>
+        <button onclick="copyToClipboard('integrityCheck', 'copied-integrityCheck')">Copy</button>
+        <span id="copied-integrityCheck" class="copied-tooltip" style="display: inline-block;">Copied!</span>
+      </div>
+      <textarea id="integrityCheck" readonly></textarea>
+    </div>
+  </div>
+
+  <script>
+    const nameInput = document.getElementById('name');
+    const titleInput = document.getElementById('title');
+    const subtitleTracks = document.getElementById('subtitleTracks');
+    const makeFolder = document.getElementById('makeFolder');
+    const ripCommand = document.getElementById('ripCommand');
+    const integrityCheck = document.getElementById('integrityCheck');
+    const mediaType = document.getElementById('mediaType');
+
+    // Set default title number to 1
+    titleInput.value = '1';
+
+    function updateCommands() {
+      const name = nameInput.value.trim();
+      const title = titleInput.value.trim() || '1';
+      const type = mediaType.value;
+
+      if (!name) {
+        makeFolder.value = '';
+        ripCommand.value = '';
+        integrityCheck.value = '';
+        return;
+      }
+
+      const basePath = `/mnt/4tbdrive/${type}/${name}`;
+      makeFolder.value = `mkdir -p "${basePath}"`;
+
+      let subtitleFlags = '';
+      if (subtitleTracks.value.trim()) {
+        subtitleFlags = `  --subtitle ${subtitleTracks.value.trim()} \\`;
+      }
+
+      ripCommand.value =
+        `HandBrakeCLI \\
+  -i /dev/sr0 \\
+  -t ${title} \\
+  -o "${basePath}/${name}.mkv" \\
+  -f mkv \\
+  -e x264 \\
+  -q 20 \\
+  --audio-lang-list eng \\
+  --first-audio \\
+  --aencoder copy,ac3 \\
+  --audio-fallback ac3 \\
+${subtitleFlags ? subtitleFlags + '\n' : ''}  --subtitle-burned=none \\
+  --markers \\
+  && eject /dev/sr0`;
+
+      integrityCheck.value = `ffprobe "${basePath}/${name}.mkv"`;
+    }
+
+    nameInput.addEventListener('input', () => {
+      subtitleTracks.value = '';
+      updateCommands();
+    });
+    titleInput.addEventListener('input', updateCommands);
+    subtitleTracks.addEventListener('input', updateCommands);
+    mediaType.addEventListener('change', updateCommands);
+
+    function copyToClipboard(elementId, tooltipId) {
+      const el = document.getElementById(elementId);
+      el.select();
+      el.setSelectionRange(0, 99999); // mobile support
+      navigator.clipboard.writeText(el.value);
+
+      const tooltip = document.getElementById(tooltipId);
+      tooltip.style.opacity = '1';
+      tooltip.style.display = 'inline-block';
+      setTimeout(() => {
+        tooltip.style.opacity = '0';
+      }, 2000);
+    }
+  </script>
+</body>
+
+</html>
