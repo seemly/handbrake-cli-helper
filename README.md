@@ -13,6 +13,7 @@ This tool is designed for users running **Linux-based home media servers (e.g., 
 - 🔤 **Optional subtitle track selection** — define subtitle tracks if needed.
 - 🔒 **No burn-in subtitles by default** — subtitles embedded as selectable tracks if present.
 - 📋 **One-click copy buttons** with tooltip feedback.
+- 📺 **TV Show support** — season and episode fields enable correct folder structure and file naming for series
 
 ---
 
@@ -52,7 +53,8 @@ No server, dependencies, or build tools are required — it works completely cli
 
 3️⃣ Fill in:
 - Name (e.g., `The Terminator (1984)`)
-- DVD Title number
+- DVD Title number (always required)
+- If applicable, Season and Episode numbers (shown automatically when needed)
 - Optional subtitle tracks
   (If no subtitle track selection is provided, subtitles will not be included in the generated command)
 

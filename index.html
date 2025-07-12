@@ -29,6 +29,16 @@
       display: none;
     }
 
+    .field-row-group {
+      width: 100%;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .field-row-group>div {
+      flex: 1 0 auto;
+    }
+
     .field-block {
       width: 100%;
       margin-top: 40px;
@@ -145,7 +155,7 @@
       <input type="text" id="get" readonly value="HandBrakeCLI -i /dev/sr0 -t 0 --min-duration 300">
     </div>
 
-    <div class="field-block display-none">
+    <div class="field-block">
       <label for="mediaType">Media Type</label>
       <select id="mediaType">
         <option value="movies">Movie</option>
@@ -159,8 +169,20 @@
     </div>
 
     <div class="field-block">
-      <label for="title">DVD Title Number</label>
-      <input type="number" id="title">
+      <div class="field-row-group">
+        <div id="seasonField" style="display:none;">
+          <label for="season">Season</label>
+          <input type="number" id="season" min="1" value="1">
+        </div>
+        <div id="episodeField" style="display:none;">
+          <label for="episode">Episode</label>
+          <input type="number" id="episode" min="1" value="1">
+        </div>
+        <div>
+          <label for="title">Title</label>
+          <input type="number" id="title" value="1">
+        </div>
+      </div>
     </div>
 
     <div class="field-block">
@@ -204,6 +226,9 @@
     const ripCommand = document.getElementById('ripCommand');
     const integrityCheck = document.getElementById('integrityCheck');
     const mediaType = document.getElementById('mediaType');
+    const seasonInput = document.getElementById('season');
+    const episodeInput = document.getElementById('episode');
+    const tvDetailsRow = document.getElementById('tvDetailsRow');
 
     // Set default title number to 1
     titleInput.value = '1';
@@ -212,6 +237,17 @@
       const name = nameInput.value.trim();
       const title = titleInput.value.trim() || '1';
       const type = mediaType.value;
+      // Clear season/episode fields if switching to movies
+      if (type === 'movies') {
+        seasonInput.value = '';
+        episodeInput.value = '';
+      }
+      const season = seasonInput.value ? seasonInput.value.trim() : '1';
+      const episode = episodeInput.value ? episodeInput.value.trim() : '1';
+
+      // Show/hide Season and Episode fields depending on media type; keep Title field always visible
+      document.getElementById('seasonField').style.display = (type === 'tv') ? 'block' : 'none';
+      document.getElementById('episodeField').style.display = (type === 'tv') ? 'block' : 'none';
 
       if (!name) {
         makeFolder.value = '';
@@ -220,7 +256,16 @@
         return;
       }
 
-      const basePath = `/mnt/4tbdrive/${type}/${name}`;
+      let basePath;
+      let outputFile;
+      if (type === 'tv') {
+        basePath = `/mnt/4tbdrive/tv/${name}/Season ${season}`;
+        outputFile = `S${String(season).padStart(2, '0')}E${String(episode).padStart(2, '0')}.mkv`;
+      } else {
+        basePath = `/mnt/4tbdrive/movies/${name}`;
+        outputFile = `${name}.mkv`;
+      }
+
       makeFolder.value = `mkdir -p "${basePath}"`;
 
       let subtitleFlags = '';
@@ -232,7 +277,7 @@
         `HandBrakeCLI \\
   -i /dev/sr0 \\
   -t ${title} \\
-  -o "${basePath}/${name}.mkv" \\
+  -o "${basePath}/${outputFile}" \\
   -f mkv \\
   -e x264 \\
   -q 20 \\
@@ -244,7 +289,7 @@ ${subtitleFlags ? subtitleFlags + '\n' : ''}  --subtitle-burned=none \\
   --markers \\
   && eject /dev/sr0`;
 
-      integrityCheck.value = `ffprobe "${basePath}/${name}.mkv"`;
+      integrityCheck.value = `ffprobe "${basePath}/${outputFile}"`;
     }
 
     nameInput.addEventListener('input', () => {
@@ -254,6 +299,8 @@ ${subtitleFlags ? subtitleFlags + '\n' : ''}  --subtitle-burned=none \\
     titleInput.addEventListener('input', updateCommands);
     subtitleTracks.addEventListener('input', updateCommands);
     mediaType.addEventListener('change', updateCommands);
+    seasonInput.addEventListener('input', updateCommands);
+    episodeInput.addEventListener('input', updateCommands);
 
     function copyToClipboard(elementId, tooltipId) {
       const el = document.getElementById(elementId);
@@ -268,6 +315,9 @@ ${subtitleFlags ? subtitleFlags + '\n' : ''}  --subtitle-burned=none \\
         tooltip.style.opacity = '0';
       }, 2000);
     }
+
+    // Initialize commands and season field on load
+    updateCommands();
   </script>
 </body>
 
