@@ -42,23 +42,17 @@ This ensures reliable matching during metadata scans.
 
 ## Usage
 
-1️⃣ Clone or download this repo:  
-```bash
-git clone https://github.com/seemly/handbrake-cli-helper.git
-```
+1️⃣ Open the GUI:  
+You can use this tool online at: [https://seemly.github.io/handbrake-cli-helper/](https://seemly.github.io/handbrake-cli-helper/)
 
-2️⃣ Open the GUI:  
-Simply open the `index.html` file directly in any modern web browser (e.g., Chrome, Firefox).  
-No server, dependencies, or build tools are required — it works completely client-side.
-
-3️⃣ Fill in:
+2️⃣ Fill in:
 - Name (e.g., `The Terminator (1984)`)
 - DVD Title number (always required)
 - If applicable, Season and Episode numbers (shown automatically when needed)
 - Optional subtitle tracks
   (If no subtitle track selection is provided, subtitles will not be included in the generated command)
 
-4️⃣ Copy and paste the generated commands directly into your terminal for execution on your media server.
+3️⃣ Copy and paste the generated commands directly into your terminal for execution on your media server.
 
 ---
 
