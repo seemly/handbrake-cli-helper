@@ -43,7 +43,7 @@ This ensures reliable matching during metadata scans.
 
 1️⃣ Clone or download this repo:  
 ```bash
-git clone https://github.com/yourusername/ripbox-gui.git
+git clone https://github.com/seemly/ripbox-gui.git
 ```
 
 2️⃣ Open the GUI:  
