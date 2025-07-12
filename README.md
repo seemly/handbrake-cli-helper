@@ -42,17 +42,26 @@ This ensures reliable matching during metadata scans.
 
 ## Usage
 
-1️⃣ Open the GUI:  
+The target directory is very opinionated to suit my setup, but if you download the code, you can make the required changes to suit your setup.
+
+### Open the GUI:  
 You can use this tool online at: [https://seemly.github.io/handbrake-cli-helper/](https://seemly.github.io/handbrake-cli-helper/)
 
-2️⃣ Fill in:
+### Get Disc Titles
+Copy the 'Get Disc Titles' command, paste that into your terminal, and await the response. Decide which title is the likely candidate for ripping/transcoding.
+
+### Fill in:
 - Name (e.g., `The Terminator (1984)`)
-- DVD Title number (always required)
+- Title (always required). This is defined by the CLI output from step 2.
 - If applicable, Season and Episode numbers (shown automatically when needed)
 - Optional subtitle tracks
   (If no subtitle track selection is provided, subtitles will not be included in the generated command)
 
-3️⃣ Copy and paste the generated commands directly into your terminal for execution on your media server.
+### Make Folder
+Copy and paste the generated 'Make Folder Command' directly into your terminal to create the DVD target directory.
+
+### Rip Command
+Copy and paste the generated 'Rip Command' directly into your terminal to rip/transcode the DVD to the target directory on your media server.
 
 ---
 
