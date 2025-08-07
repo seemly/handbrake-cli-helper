@@ -280,10 +280,10 @@
   -o "${basePath}/${outputFile}" \\
   -f mkv \\
   -e x264 \\
-  -q 20 \\
+  -q 16 \\
   --audio-lang-list eng \\
   --first-audio \\
-  --aencoder copy,ac3 \\
+  --aencoder ac3 \\
   --audio-fallback ac3 \\
 ${subtitleFlags ? subtitleFlags + '\n' : ''}  --subtitle-burned=none \\
   --markers \\
