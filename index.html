@@ -259,10 +259,10 @@
       let basePath;
       let outputFile;
       if (type === 'tv') {
-        basePath = `/mnt/4tbdrive/tv/${name}/Season ${season}`;
+        basePath = `/mnt/drive02/tv/${name}/Season ${season}`;
         outputFile = `S${String(season).padStart(2, '0')}E${String(episode).padStart(2, '0')}.mkv`;
       } else {
-        basePath = `/mnt/4tbdrive/movies/${name}`;
+        basePath = `/mnt/drive01/movies/${name}`;
         outputFile = `${name}.mkv`;
       }
 
